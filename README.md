@@ -1,16 +1,13 @@
 # API Planos de Telefonia - Desafio Wooza
----------------------
 API de Planos de Telefonia criada como resolução do desafio da Wooza para processo seletivo. Devido a familiaridade com a linguagem, a mesma foi desenvolvida em Java utilizando Spring Boot e MongoDB como repositório local.
 
 ## Requerimentos
-------------------
 Antes de executar o projeto, por favor instalar:
 
 - [MongoDB](https://www.mongodb.com/)
 
 
 ## API
-------------------
 Todos os métodos da API são chamados partindo do path base.
 
 Path Base no Localhost (Caso execute em outro ambiente, ajustar o path)
@@ -100,7 +97,6 @@ Path Base no Localhost (Caso execute em outro ambiente, ajustar o path)
 
 
 ## Testes Unitários
-------------------
 
 Excutar a classe abaixo usando Junit:
 > DesafiowoozaApplicationTests.java
