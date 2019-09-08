@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 import br.com.wooza.desafiowooza.facade.PlanosFacade;
+import br.com.wooza.desafiowooza.vo.OperadoraDDD;
 import br.com.wooza.desafiowooza.vo.PlanoVO;
 import br.com.wooza.desafiowooza.vo.TipoDDD;
 
@@ -25,42 +26,72 @@ public class PlanosController {
 
 	@Autowired
 	PlanosFacade planosFacade;
-	
+
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	public @ResponseBody PlanoVO consultarPlano(@PathVariable("id") String id) {
 		return planosFacade.consultarPlano(id);
 	}
-	
-	@RequestMapping(value="/cadastrar", method = RequestMethod.POST)
+
+	@RequestMapping(value = "/cadastrar", method = RequestMethod.POST)
 	@ResponseStatus(HttpStatus.CREATED)
 	public @ResponseBody ResponseEntity<PlanoVO> cadastrarPlano(@Valid @RequestBody PlanoVO novoPlano) {
-		PlanoVO planoCadastrado = planosFacade.salvarPlano(novoPlano);
-		if(planoCadastrado == null) {
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
-		}else {
 		
+		PlanoVO planoCadastrado = planosFacade.salvarPlano(novoPlano);
+		if (planoCadastrado == null) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+		} else {
+
 			return ResponseEntity.ok(planoCadastrado);
 		}
+		
 	}
 	
+	@RequestMapping(value = "/alterar", method = RequestMethod.POST)
+	@ResponseStatus(HttpStatus.OK)
+	public @ResponseBody ResponseEntity<PlanoVO> alterarPlano(@Valid @RequestBody PlanoVO plano) {
+		
+		PlanoVO planoAlterado = planosFacade.salvarPlano(plano);
+		if (planoAlterado == null) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+		} else {
+
+			return ResponseEntity.ok(planoAlterado);
+		}
+		
+	}
+
 	@RequestMapping(value = "/remover/{id}", method = RequestMethod.POST)
 	@ResponseStatus(HttpStatus.OK)
 	public void removerPlano(@PathVariable("id") String id) {
-		
 		planosFacade.removerPlano(planosFacade.consultarPlano(id));
 	}
-	
-	@RequestMapping(value = "/consultar", method = RequestMethod.POST)
+
+	@RequestMapping(value = "/consultar/tipo", method = RequestMethod.POST)
 	@ResponseStatus(HttpStatus.OK)
 	public @ResponseBody ResponseEntity<?> consultarPorTipoDDD(@RequestBody TipoDDD tipoDDD) {
-		
+
 		List<PlanoVO> resultado = planosFacade.consultarPlanoTipo(tipoDDD.tipo, tipoDDD.ddd);
-		if(resultado == null) {
+		if (resultado == null) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
-		}else {
-		
+		} else {
+
 			return ResponseEntity.ok(resultado);
 		}
+		
 	}
-	
+
+	@RequestMapping(value = "/consultar/operadora", method = RequestMethod.POST)
+	@ResponseStatus(HttpStatus.OK)
+	public @ResponseBody ResponseEntity<?> consultarPorOperadoraDDD(@RequestBody OperadoraDDD operadoraDDD) {
+
+		List<PlanoVO> resultado = planosFacade.consultarPlanoOperadora(operadoraDDD.operadora, operadoraDDD.ddd);
+		if (resultado == null) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+		} else {
+
+			return ResponseEntity.ok(resultado);
+		}
+		
+	}
+
 }
